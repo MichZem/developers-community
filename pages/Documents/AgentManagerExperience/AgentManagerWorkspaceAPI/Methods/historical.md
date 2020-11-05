@@ -12,19 +12,16 @@ indicator: messaging
 
 ### General 
 
-The key messaging metrics API retrieves core messaging metrics at the account, skill or group level, for up to the last 24 hours.
+The trends API retrieves historical core messaging metrics at the account, skill or group level, for up to the last X hours.
 
-Combining this information with other data sources enables you to create your own customized real-time dashboard. Here are some example use cases of the API, that can assist you in analyzing your contact center performance:
+Using this API, you can enrich your customized real-time dashboard. Here are some example use cases of the API, that can assist you in analyzing your contact center performance:
 
-- Track how many of your agents are currently available (online, away, back soon) at the skill or group level
+- Track how many conversation have been closed over time, for a pre-defined skill / agent / group 
 
-- Track how many conversations were resolved and how
+- Track how many conversation have been transferred over time, for a pre-defined skill / agent / group 
 
-- Track the response times of agents by group or skill
+- Track how many conversation have been concluded over time, for a pre-defined skill / agent / group 
 
-- Track consumers waiting times by group or skil
-
-- Retrieve metrics at the group level and automatically include their sub groups
 
 The API is being used today in the LivePerson Conversational Cloud to display the agent manager workspace:
 
@@ -41,15 +38,12 @@ This method is subject to Rate Limiting. User manager should not send more than 
 
 Method | URL
 ------ | ---------------------------------------------------------------------------------------------------
-POST| https://[{domain}](/agent-manager-domain-api.html)/manager_workspace/api/account/{accountId}/metrics?offset=0&limit=50&sort=closedConversations:desc
+POST| https://[{domain}](/agent-manager-domain-api.html)/manager_workspace/api/account/{accountId}/historical
 
 **URL Parameters**
 
 Name| Description  | Type/Value | Required | Notes
 :----- | :----------------------------------------------------------- | :--------- | :------- | :--------------------------------------------------------------------------------------------------------------------------------------------
-sort| Sort the results based on a given metric in a predefined order. | string  | Optional |  <br/>**Valid sort values:**<br/> agentLoad<br/>humanAgentLoad<br/>closedConversations<br/>avgTimeToResponse<br/>avgTimeToFirstResponseFirstAssignment<br/>avgTimeToFirstResponseAllAssignments<br/>avgWaitTime<br/>avgWaitTimeFirstResponse<br/>assignedConversations<br/>activeConversations<br/>onlineAgents<br/>awayAgents<br/>backSoonAgents<br/>**Valid order values:**<br/>asc/desc<br/>**Default sort:**<br/>key:asc
-offset  | The offset specifies from which record to retrieve the data.  | numeric | Optional | Default is 0
-limit  | Max amount of keys (skillIds/agentGroupIds) to be retrieved in the response.  | numeric | Optional | Default is 50. Max value is 50.
 
 **BODY Parameters**
 
