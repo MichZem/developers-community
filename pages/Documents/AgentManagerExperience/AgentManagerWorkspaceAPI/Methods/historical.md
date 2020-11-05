@@ -12,7 +12,7 @@ indicator: messaging
 
 ### General 
 
-The trends API retrieves historical core messaging metrics at the account, skill or group level, for up to the last X hours.
+The trends API retrieves historical core messaging metrics at the account, skill or group level, for up to the last 30 days.
 
 Using this API, you can enrich your customized real-time dashboard. Here are some example use cases of the API, that can assist you in analyzing your contact center performance:
 
@@ -103,7 +103,7 @@ _value info_
 
 Name  | Description  | Type/Value
 :------------------- | :----------------------------------------------------------------------------- | :---------
-transfers  | Number of conversations that were _transferred_ in the time interval  | value
+transfers  | Number of conversations that were _transferred_ in the time interval (aka during the hour before the timestamp value)  | value
 closedConversations  | Number of conversations that were _closed_ in the time interval  | value
 concludedConversations  | Number of conversations that were _concluded_ in the time interval  | value
 
