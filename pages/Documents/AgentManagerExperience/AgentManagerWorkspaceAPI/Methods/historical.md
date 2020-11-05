@@ -64,7 +64,7 @@ _filters info_
 |agentGroupIds | An array of agent group IDs.| Array `<String>` | Optional | 
 |skillIds| An array of skill IDs.| Array `<String>`| Optional |
 |userTypes | Type of the user conducting of the conversation. | alphanumeric  | Optional | Valid values: HUMAN, BOT.
-| 
+
 
 Request body - json example:
 
@@ -90,57 +90,24 @@ Request body - json example:
 
 Name| Description | Type/Value
 :-------- | :------------------------------------------------- | :-----------------
-metadata | All response-related Metadata.| container
-groupBy  | Contains grouped by metrics values based on the given groupBy and metrics parameters. | container
-all | Contains metrics values for all relevant agents.| container
+historicalMetricsIntervals | All the historical points over time.| container
 
-_metadata info_
+_historicalMetricsIntervals info_
 
 Name| Description | Type/Value
 :-------- | :------------------------------------------------- | :-----------------
-count  | Number of groups returned based on the groupBy parameter. In case groupBy section is not passed in the request body, count will be set to zero | numeric
+timestamp  | Timestamp in msec of the point within the trend   | numeric
+values  | the values of the point within the trend   | container
 
-_groupBy info_
+_value info_
 
 Name  | Description  | Type/Value
 :------------------- | :----------------------------------------------------------------------------- | :---------
-groupByField  | The name of the field by which the metrics data is grouped (agentId or agentGroupId) | String
-groups  | A list of all the groups with the required metrics data  | Container
-
-_groups info_
-
-| Name| Description | Type/ Value| Notes|
-|-----|-------------|------------|------|
-| key| The value the metrics data was grouped by.If groupBy was set to skillId, then the key holds the skill id. If the groupBy was set to agentGroupId, then the key holds the group id.	| String |
-| keyDescription| The descriptive value the metrics data was grouped by.If groupBy was set to skillId, then the keyDescription holds the skill name. If the groupBy was set to agentGroupId, then the keyDescription holds the group name. Notice: if ID was not successfully associated with any name, return "NA"	| String |
-| metrics  | A list of all the metrics with their value | Container|
-
-_metrics info_
-
-| Name| Description | Type/ Value| Notes|
-|-----|-------------|------------|------|
-| assignedConversations  | The number of open conversations currently handled by agents. limited to conversations which started within the past 30 days.| Long|
-| agentLoad| The total weight of assigned conversations as a percentage of the maximum concurrent conversations of all agents, including bots.| Double |
-| humanAgentLoad| The total weight of assigned conversations as a percentage of the maximum concurrent conversations of all human agents.| Double |
-| humanOnlineLoad| The total weight of assigned conversations as a percentage of the maximum concurrent conversations of all human online agents.| Double |
-| availableSlots| The total number of available conversations slots to take incoming conversations from the queue (the "Supply"). In case the response is grouped by skilldIds, same slots will be counted under all the skills an agent is assigned to.| Long |
-| onlineAgents| Agents currently in the ONLINE state.| Long |
-| backSoonAgents| Agents currently in the BACK SOON state.| Long |
-| awayAgents| Agents currently in the AWAY state.| Long |
-| avgWaitTime  | The average time in millis consumers wait for a human agent response in a conversation. Attributed to the skill and group at the time of response.| Double|
-| avgWaitTimeFirstResponse| The average time in millis consumers wait for the first human response in a conversation. Attributed to the skill and group at the time of response.| Double |
-| avgTimeToResponse  | The average time in millis it takes a human agent to send a message to the consumer from the time the agent was assigned to the conversation. Attributed to the skill and group at the time of response.| Double|
-| avgTimeToFirstResponseFirstAssignment| The average time in millis it takes a human agent to respond to the first message from a consumer, from the time the agent was assigned to the conversation. Measured from the first human agent message sent in a new conversation.Attributed to the skill and group at the time of response.| Double |
-| closedConversations| The number of conversations closed within the selected timeframe by the agent, system or consumer.| Long |
-| closedByAgent| The number of conversations closed by the agent within the selected timeframe.| Long |
-| closedByConsumer| The number of conversations closed by the consumer within the selected timeframe.| Long |
-| autoClosed| The number of conversations automatically closed within the selected timeframe.| Long |
+transfers  | Number of conversations that were _transferred_ in the time interval  | value
+closedConversations  | Number of conversations that were _closed_ in the time interval  | value
+concludedConversations  | Number of conversations that were _concluded_ in the time interval  | value
 
 
-
-_all info_ 
-
-Contains list of metrics with their values - same as in _metrics info_
 
 
 Response DTO - json example:
@@ -148,47 +115,112 @@ Response DTO - json example:
 ```json
 
 {
-     "metadata": {
-        "count": 3,
-        "first": {
-            "rel": "first",
-            "href": "https://localhost:8082/manager_workspace/api/account/le79144597/metrics?offset=0&limit=1&sort=closedConversations:desc"
-        },
-        "prev": {
-            "rel": "prev",
-            "href": "https://localhost:8082/manager_workspace/api/account/le79144597/metrics?offset=0&limit=1&sort=closedConversations:desc"
-        },
-        "self": {
-            "rel": "self",
-            "href": "https://localhost:8082/manager_workspace/api/account/le79144597/metrics?offset=1&limit=1&sort=closedConversations:desc"
-        },
-        "next": {
-            "rel": "next",
-            "href": "https://localhost:8082/manager_workspace/api/account/le79144597/metrics?offset=2&limit=1&sort=closedConversations:desc"
-        },
-        "last": {
-            "rel": "last",
-            "href": "https://localhost:8082/manager_workspace/api/account/le79144597/metrics?offset=2&limit=1&sort=closedConversations:desc"
-        }
-    },
-    "groupBy": {
-        "groupByField": "agentGroupId",
-        "groups": [                
-            {
-                "key": "1641709730",
-		"keyDescription": "customerAssistanceSkill",
-                "metrics": {
-                    "assignedConversations": 6,
-                    "humanAgentLoad": 1.18,
-                    "avgWaitTime": 228876.654,
-                    "avgWaitTimeFirstResponse": 798118.667,
-                    "avgTimeToResponse": 58490.731,
-                    "avgTimeToFirstResponseFirstAssignment": 59779.667,
-                    "closedConversations": 1
-                }
+    "historicalMetricsIntervals": [
+        {
+            "timestamp": 1604498398800,
+            "values": {
+                "transfers": 3986.0,
+                "closedConversations": 1041.0,
+                "concludedConversations": 5027.0
             }
-        ]
-    }
+        },
+        {
+            "timestamp": 1604505598380,
+            "values": {
+                "transfers": 7385.0,
+                "closedConversations": 2186.0,
+                "concludedConversations": 9571.0
+            }
+        },
+        {
+            "timestamp": 1604512797960,
+            "values": {
+                "transfers": 7118.0,
+                "closedConversations": 2623.0,
+                "concludedConversations": 9741.0
+            }
+        },
+        {
+            "timestamp": 1604519997540,
+            "values": {
+                "transfers": 6902.0,
+                "closedConversations": 2802.0,
+                "concludedConversations": 9704.0
+            }
+        },
+        {
+            "timestamp": 1604527197120,
+            "values": {
+                "transfers": 6420.0,
+                "closedConversations": 2648.0,
+                "concludedConversations": 9068.0
+            }
+        },
+        {
+            "timestamp": 1604534396700,
+            "values": {
+                "transfers": 5948.0,
+                "closedConversations": 2451.0,
+                "concludedConversations": 8399.0
+            }
+        },
+        {
+            "timestamp": 1604541596280,
+            "values": {
+                "transfers": 4818.0,
+                "closedConversations": 1785.0,
+                "concludedConversations": 6603.0
+            }
+        },
+        {
+            "timestamp": 1604548795860,
+            "values": {
+                "transfers": 3067.0,
+                "closedConversations": 1549.0,
+                "concludedConversations": 4616.0
+            }
+        },
+        {
+            "timestamp": 1604555995440,
+            "values": {
+                "transfers": 1618.0,
+                "closedConversations": 1190.0,
+                "concludedConversations": 2808.0
+            }
+        },
+        {
+            "timestamp": 1604563195020,
+            "values": {
+                "transfers": 826.0,
+                "closedConversations": 1442.0,
+                "concludedConversations": 2268.0
+            }
+        },
+        {
+            "timestamp": 1604570394600,
+            "values": {
+                "transfers": 868.0,
+                "closedConversations": 1135.0,
+                "concludedConversations": 2003.0
+            }
+        },
+        {
+            "timestamp": 1604577594180,
+            "values": {
+                "transfers": 3601.0,
+                "closedConversations": 1064.0,
+                "concludedConversations": 4665.0
+            }
+        },
+        {
+            "timestamp": 1604584793760,
+            "values": {
+                "transfers": 2178.0,
+                "closedConversations": 818.0,
+                "concludedConversations": 2996.0
+            }
+        }
+    ]
 }
 
 ```
