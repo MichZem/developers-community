@@ -44,6 +44,7 @@ POST| https://[{domain}](/agent-manager-domain-api.html)/manager_workspace/api/a
 
 Name| Description  | Type/Value | Required | Notes
 :----- | :----------------------------------------------------------- | :--------- | :------- | :--------------------------------------------------------------------------------------------------------------------------------------------
+resolution| Number of points to be returned in the graph  | integer | No | Value can be from 1 to 100 points in the graph.
 
 **BODY Parameters**
 
