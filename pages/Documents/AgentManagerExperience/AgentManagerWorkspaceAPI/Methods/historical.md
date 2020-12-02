@@ -44,7 +44,7 @@ POST| https://[{domain}](/agent-manager-domain-api.html)/manager_workspace/api/a
 
 Name| Description  | Type/Value | Required | Notes
 :----- | :----------------------------------------------------------- | :--------- | :------- | :--------------------------------------------------------------------------------------------------------------------------------------------
-resolution| Number of points to be returned in the graph  | integer | No | Value can be from 1 to 100 points in the graph.
+interval| Time interval in minutes between the points to be returned  | integer | No | Value must be greater than 1 minute. As well, the number of graph points to be returned according to this time interval should not be higher than 100 points.
 
 **BODY Parameters**
 
