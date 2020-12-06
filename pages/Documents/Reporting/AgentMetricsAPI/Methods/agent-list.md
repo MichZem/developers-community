@@ -30,7 +30,7 @@ Filter is sent in the POST data (body) with the following JSON structure:
 
 | Name   |      Description      |  Type/Value | Notes |
 |----------|-------------|------|------|
-| skillIds | Conversation skill id to determine which agents will be filtered by ability to transfer to skill. If skill is -1, it returns all the available agent. Otherwise, if the given skillID is defined with "Transfer To Skill" list, return the available agents who are associated with those TransferToSkill list. If the given skillID is defined with TransferToSkill but a default "All Skill" value, return all the available agents. If the given skillID is defined with NO TransferToSkill, return the available agents who are associated with this given skillID.    |    Array`<String>` ||
+| skillIds | Conversation skill id to determine which agents will be filtered by ability to transfer to skill. If skill is -1, it returns all the available agent. Otherwise, if the given skill id is defined with "Transfer To Skill" list, return the available agents who are associated with those "Transfer To Skill" list. If the given skill id is defined with "Transfer To Skill" but also with a a default "All Skill" value, return all the available agents and ignore their skills. If the given skillID is defined with NO TransferToSkill, return the available agents who are associated with this given skillID.    |    Array`<String>` ||
 
 
 **Response**
