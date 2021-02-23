@@ -70,7 +70,7 @@ An agent can belong to only one bot.
 6. If desired, click **Advanced Options** and specify any optional, advanced settings:
     - **Fallback Skill ID**: If the skill (that you assigned to the bot agent) has a defined fallback skill, you can enter the fallback skill's ID here. The fallback skill is the skill to which to route the conversation as a fallback if no agents with the primary skill have free capacity. Fallback skills have several uses, but they're often used to escalate (transfer) a conversation from a bot agent to a live agent. You define fallback skills for skills in Conversational Cloud. For more on this, see the [LivePerson Knowledge Center](https://knowledge.liveperson.com).
     - **External Webhook URL**: This option is for brands that want to use HTTP instead of WebSocket for connection to Conversational Cloud. Enter the URL to which the HTTP connector will post user messages to external endpoints.
-    - **Custom Configurations**: If desired, click " + ", and enter any custom configuration fields to set. For information on these, see "Custom configuration fields" later in this topic.
+    - **Custom Configurations**: If desired, click **+ Custom Configurations**, and enter any custom configuration fields to set. For information on these, see "Custom configuration fields" later in this topic.
     - **Accessibility**: Select this if you want the bot messages to support Accessibility. If you select this, the fields sent in the JSON object have the tooltip attribute.
 7. Click **Save**.
 
@@ -157,12 +157,42 @@ The StepUp message sent to the bot when Stepup Authentication happens.
 **Messaging**: Yes<br>
 **Chat**: No
 
+#### enableButtonTextOnPostback
+
+{: .important}
+This custom configuration field controls the behavior of Structured and Button questions, not Quick Reply questions.
+
+By default, when you specify a callback value for a button in a [Structured](conversation-builder-interactions-questions.html) or [Button](conversation-builder-interactions-questions.html) question, that value is sent to the bot when the consumer selects the button. What’s more, that value, not the button’s label, is displayed to the consumer as their selected choice.
+
+In many cases though, you want to send the callback value to the bot, but you want to hide this from the consumer, displaying instead the button’s label to the consumer as their choice. You can accomplish this with the enableButtonTextOnPostback custom configuration field.
+
+If you set this field to true, the selected button’s label is displayed to the consumer as their choice. You can still retrieve the callback value that is sent to the bot; to do this, use the [getButtonPayload](conversation-builder-scripting-functions-manage-conversation-flow.html#get-button-payload) scripting function in the Process User Response code for the question interaction.
+
+If this field is unset or you set this field to false, the selected button’s callback value is displayed to the consumer as their choice.
+
+**Default value**: false<br>
+**Messaging**: Yes<br>
+**Chat**: No
+
 #### fallbackEscalationTime
 The value in milliseconds for the period of time to pass before invoking fallback escalation.
 
 **Default value**: 3 \* 1000 \* 60<br>
 **Messaging**: Yes<br>
 **Chat**: No
+
+#### maxConsumerMessageDelay
+The maximum time delay in minutes between the bot agent's receipt of the last consumer message (to which the bot responded) and its receipt of the next consumer message. If the next message is received after this time has elapsed, the bot ignores the message and does not respond.
+
+For example, assume the bot agent receives a message from the consumer at 1:00 p.m., and it then receives the consumer's next message at 1:20 p.m. The delay between consumer messages is 20 minutes. If the maxConsumerMessageDelay is set to 30 minutes, the bot will respond to the message received at 1:20 p.m.
+
+Conversely, assume the bot agent receives a message from the consumer at 1:00 p.m., and it then receives the consumer's next message at 2:00 p.m. The delay between consumer messages is 60 minutes. If the maxConsumerMessageDelay is set to 30 minutes, the bot will not respond to the message received at 2:00 p.m.
+
+The default value of 30 minutes should suit most use cases due to the sequential nature of bot conversations, where the conversation either ends in resolution or escalation. However, messaging is asynchronous, so a consumer might reply in intervals that are longer than 30 minutes. As a result, you can increase this value if needed based on your use cases.
+
+**Default value**: 30<br>
+**Messaging**: Yes<br>
+**Chat**: No<br>
 
 #### maxEscalationRetries
 When the agent escalation fails, we send an \_agent\_escalation\_failed\_ message. However, this can end in infinitely loop if the escalation keeps failing. This will set the max number of failure messages sent.
